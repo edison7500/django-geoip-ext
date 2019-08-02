@@ -4,22 +4,21 @@ from setuptools import setup, find_packages
 with open("README.md") as readme_file:
     readme = readme_file.read()
 
-
-install_requires = [
-                       'Django >= 1.11',
-                       'geoip2 == 2.9.0',
-                   ],
-
-
+install_requires = (["Django>=1.11", "geoip2==2.9.0"],)
 
 setup(
-    name='django-geoip-ext',
+    name="django-geoip-ext",
     version=geoip_ext.__version__,
     description="""Django GeoIP""",
     long_description=readme,
-    packages=find_packages(),
+    packages=[
+        "geoip_ext",
+        "geoip_ext.management",
+        "geoip_ext.management.commands",
+        "geoip_ext.middleware",
+    ],
     include_package_data=True,
-    license='GNU License',
+    license="GNU License",
     zip_safe=False,
     keywords="django-geoip",
 )
