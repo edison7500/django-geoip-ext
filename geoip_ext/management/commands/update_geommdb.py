@@ -10,10 +10,10 @@ from django.conf import settings
 
 # logger = logging.getLogger("django")
 
-
 db_link = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
 
 geoip_path = getattr(settings, "GEOIP_PATH_MMDB", None)
+mmdb_file = "{}/GeoLite2-Country.mmdb".format(geoip_path)
 
 
 class Command(BaseCommand):
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         if geoip_path is None:
             return False
         if not os.path.exists(path):
-            pathlib.Path("/tmp/path/to/desired/directory").mkdir(parents=True, exist_ok=True)
+            pathlib.Path(path).mkdir(parents=True, exist_ok=True)
         return True
 
     def handle(self, *args, **options):
@@ -57,5 +57,6 @@ class Command(BaseCommand):
                 tmpdir,
                 self.mmdb_filename
             )
-            shutil.move(src=mmdb_src, dst=geoip_path)
+
+            shutil.move(src=mmdb_src, dst=mmdb_file)
             shutil.rmtree(tmpdir)

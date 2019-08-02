@@ -1,26 +1,31 @@
 import logging
+import os
 import warnings
 import geoip2.database
 from django.utils.deprecation import MiddlewareMixin
 from django.conf import settings
 from geoip2.errors import AddressNotFoundError
 
-logger = logging.getLogger("geo_ext")
+logger = logging.getLogger("django")
 
-mmdb = getattr(settings, "GEOIP_PATH_MMDB", None)
+mmdb_path = getattr(settings, "GEOIP_PATH_MMDB", None)
 
 
 class GeoIPMiddleware(MiddlewareMixin):
 
     def __init__(self, get_response=None):
-        logger.info(mmdb)
+        # logger.info(mmdb)
         self.get_response = get_response
         # assert mmdb is not None
-        if mmdb:
+        mmdb = "{path}/GeoLite2-Country.mmdb".format(path=mmdb_path)
+
+        if mmdb and os.path.isfile(mmdb):
             try:
                 self.reader = geoip2.database.Reader(mmdb)
             except FileNotFoundError as e:
-                logger.info(e)
+                self.reader = None
+            except Exception as e:
+                logger.error(e)
                 self.reader = None
         else:
             warnings.warn("django settings GEOIP_PATH_MMDB not configured")
