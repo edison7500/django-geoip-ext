@@ -1,7 +1,7 @@
 import os
 import shutil
 import tempfile
-
+import pathlib
 import requests
 import tarfile
 
@@ -25,8 +25,14 @@ class Command(BaseCommand):
                 self.mmdb_filename = tarinfo.name
                 yield tarinfo
 
+    def check_mmdb_path(self, path=geoip_path):
+        if geoip_path is None:
+            return False
+        if not os.path.exists(path):
+            pathlib.Path("/tmp/path/to/desired/directory").mkdir(parents=True, exist_ok=True)
+        return True
+
     def handle(self, *args, **options):
-        # logger.info(db_link)
         tmpdir = tempfile.mkdtemp()
         local_filename = "{}/{}".format(
             tmpdir,
@@ -43,12 +49,13 @@ class Command(BaseCommand):
             # logger.info(local_filename)
         self.stdout.write(self.style.SUCCESS("Download %s Success" % local_filename))
 
-        tar = tarfile.open(local_filename)
-        tar.extractall(path=tmpdir, members=self.get_mmdb_file(tar))
-        tar.close()
-        mmdb_src = "{}/{}".format(
-            tmpdir,
-            self.mmdb_filename
-        )
-        shutil.move(src=mmdb_src, dst=geoip_path)
-        shutil.rmtree(tmpdir)
+        if self.check_mmdb_path(path=geoip_path):
+            tar = tarfile.open(local_filename)
+            tar.extractall(path=tmpdir, members=self.get_mmdb_file(tar))
+            tar.close()
+            mmdb_src = "{}/{}".format(
+                tmpdir,
+                self.mmdb_filename
+            )
+            shutil.move(src=mmdb_src, dst=geoip_path)
+            shutil.rmtree(tmpdir)

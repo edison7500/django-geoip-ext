@@ -5,7 +5,7 @@ from django.utils.deprecation import MiddlewareMixin
 from django.conf import settings
 from geoip2.errors import AddressNotFoundError
 
-logger = logging.getLogger("django")
+logger = logging.getLogger("geo_ext")
 
 mmdb = getattr(settings, "GEOIP_PATH_MMDB", None)
 
