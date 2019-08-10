@@ -31,4 +31,7 @@ MIDDLEWARE = [
     ...
 ]
 
+
+GEOIP_PATH_MMDB = "/path/to/geoip2.mmdb"
+
 ```
