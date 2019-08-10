@@ -8,5 +8,6 @@ branches:
 install:
   - pip install -r requirements/local.txt
 script:
+  - cd demo/
   - python manage.py update_geommdb
   - python manage.py test
