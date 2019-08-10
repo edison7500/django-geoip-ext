@@ -59,4 +59,7 @@ class Command(BaseCommand):
             )
 
             shutil.move(src=mmdb_src, dst=mmdb_file)
-            shutil.rmtree(tmpdir)
+        else:
+            self.stdout.write(self.style.ERROR("geoip path not config"))
+
+        shutil.rmtree(tmpdir)
