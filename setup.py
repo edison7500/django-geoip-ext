@@ -5,7 +5,7 @@ import geoip_ext
 with open("README.md") as readme_file:
     readme = readme_file.read()
 
-install_requires = (["Django>=1.11", "geoip2==2.9.0"],)
+install_requires = (["Django>=1.11", "geoip2>=2.9.0"],)
 
 setup(
     name="django-geoip-ext",
@@ -18,6 +18,7 @@ setup(
         "geoip_ext.management.commands",
         "geoip_ext.middleware",
     ],
+    install_requires=install_requires,
     include_package_data=True,
     license="GNU License",
     zip_safe=False,
