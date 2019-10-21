@@ -38,8 +38,6 @@ class GeoIPMiddleware(MiddlewareMixin):
         else:
             _client_ip = request.META["REMOTE_ADDR"]
             logger.info(_client_ip)
-
-        _client_ip = '36.104.15.42, 112.34.110.28'
         try:
             _client_ip = _client_ip.split(",")[0]
         except IndexError:
