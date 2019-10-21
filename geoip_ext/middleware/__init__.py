@@ -39,8 +39,15 @@ class GeoIPMiddleware(MiddlewareMixin):
             _client_ip = request.META["REMOTE_ADDR"]
             logger.info(_client_ip)
 
-        if self.reader is not None:
+        _client_ip = '36.104.15.42, 112.34.110.28'
+        try:
+            _client_ip = _client_ip.split(",")[0]
+        except IndexError:
+            _client_ip = None
+
+        if self.reader is not None and _client_ip is not None:
             try:
+                _client_ip = _client_ip.strip()
                 res = self.reader.country(_client_ip)
                 logger.info(res.country.iso_code)
                 request.iso_code = res.country.iso_code
