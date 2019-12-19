@@ -53,11 +53,7 @@ class Command(BaseCommand):
             tar = tarfile.open(local_filename)
             tar.extractall(path=tmpdir, members=self.get_mmdb_file(tar))
             tar.close()
-            mmdb_src = "{}/{}".format(
-                tmpdir,
-                self.mmdb_filename
-            )
-
+            mmdb_src = f"{tmpdir}/{self.mmdb_filename}"
             shutil.move(src=mmdb_src, dst=mmdb_file)
         else:
             self.stdout.write(self.style.ERROR("geoip path not config"))
