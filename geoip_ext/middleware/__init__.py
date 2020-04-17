@@ -12,7 +12,6 @@ mmdb_path = getattr(settings, "GEOIP_PATH_MMDB", None)
 
 
 class GeoIPMiddleware(MiddlewareMixin):
-
     def __init__(self, get_response=None):
         # logger.info(mmdb)
         self.get_response = get_response

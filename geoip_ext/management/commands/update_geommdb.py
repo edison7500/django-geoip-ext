@@ -34,10 +34,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         tmpdir = tempfile.mkdtemp()
-        local_filename = "{}/{}".format(
-            tmpdir,
-            db_link.split("/")[-1]
-        )
+        local_filename = "{}/{}".format(tmpdir, db_link.split("/")[-1])
 
         self.stdout.write(self.style.NOTICE("start download %s" % local_filename))
         with requests.get(db_link, stream=True) as r:
