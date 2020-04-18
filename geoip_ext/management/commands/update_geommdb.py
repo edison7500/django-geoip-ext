@@ -13,7 +13,7 @@ from django.conf import settings
 db_link = "https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
 
 geoip_path = getattr(settings, "GEOIP_PATH_MMDB", None)
-mmdb_file = "{}/GeoLite2-Country.mmdb".format(geoip_path)
+mmdb_file = f"{geoip_path}/GeoLite2-Country.mmdb"
 
 
 class Command(BaseCommand):
@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         tmpdir = tempfile.mkdtemp()
-        local_filename = "{}/{}".format(tmpdir, db_link.split("/")[-1])
+        local_filename = f"{tmpdir}/{db_link.split('/')[-1]}"
 
         self.stdout.write(self.style.NOTICE("start download %s" % local_filename))
         with requests.get(db_link, stream=True) as r:
